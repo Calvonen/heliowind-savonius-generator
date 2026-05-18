@@ -1,87 +1,49 @@
-# HelioWind Savonius Generator
+# HelioWind Savonius Generator (OpenSCAD)
 
-Parametrinen Savonius-roottorigeneraattori, joka luo automaattisesti:
+Tämä projekti generoi parametrisen Savonius-roottorin OpenSCAD-muotoon ja tekee lisäksi 2D-lapapohjan (DXF).
 
-* 3D-tulostettavat päädyt (STL / STEP)
-* alumiinilapojen levityskuvat (DXF)
-* kokoonpanon preview-mallin
-* säädettävän Savonius-geometrian
+## Tiedostot
 
-Projektin tarkoitus on rakentaa visuaalisesti näyttävä, hiljainen ja modulaarinen hybridienergiaveistos, jossa yhdistyvät:
+- `config.json` – kaikki mitat ja asetukset
+- `generate_savonius_scad.py` – lukee konfiguraation ja generoi mallit
+- `savonius.scad` – generoitu OpenSCAD-malli
+- `output/` – generoitujen tiedostojen kansio
+- `blade_template.dxf` – lavan 2D-levityskuva
 
-* pystyakselinen Savonius-tuuliturbiini
-* aurinkopaneeli
-* LED-valaistus
-* Energy Core -moduuli
-* USB / USB-C / 12V ulostulot
+## Oletusgeometria
 
-## Tavoitteet
+- 2 lapaa
+- halkaisija 220 mm
+- korkeus 460 mm
+- kiertokulma 120°
+- akselireikä 12 mm
+- alumiinilapojen urat päädyissä
 
-Projektin pitää pystyä:
+## Ajo
 
-1. Generoimaan parametrinen Savonius-roottori
-2. Luomaan STL-tiedostot 3D-tulostettaville päädyille
-3. Luomaan DXF-levityskuvat alumiinilavoille
-4. Tukemaan eri halkaisijoita, korkeuksia ja kiertokulmia
-5. Mahdollistamaan modulaarinen rakenne
-6. Tukemaan keskiakselia ja laakerointia
-7. Mahdollistamaan LED-renkaan ja energy core -moduulin integrointi
+```bash
+python generate_savonius_scad.py
+openscad -o output/savonius.stl output/savonius.scad
+```
 
-## Ensimmäinen tavoitegeometria
+Ensimmäinen komento luo:
+- `savonius.scad`
+- `output/savonius.scad`
+- `blade_template.dxf`
+- `output/blade_template.dxf`
 
-* halkaisija: 220 mm
-* korkeus: 460 mm
-* lapojen määrä: 2
-* kiertokulma: 120°
-* akselireikä: 12 mm
-* lapa: 0.8 mm alumiinilevy
-* rakenne: 2 moduulia
+## Muokattavat mitat
 
-## Halutut outputit
+Muokkaa tiedostoa `config.json`:
 
-Projektin pitää generoida:
+- `diameter_mm`
+- `height_mm`
+- `twist_deg`
+- `blade_width_mm`
+- `shaft_hole_diameter_mm`
+- `blade_thickness_mm`
+- `plate_thickness_mm`
+- `slot_depth_mm`
+- `slot_clearance_mm`
 
-* top_plate.stl
-* bottom_plate.stl
-* blade_template.dxf
-* assembly_preview.step
-
-## Tekninen toteutus
-
-Toteutus Pythonilla.
-
-Suositeltu ympäristö:
-
-* FreeCAD Python API
-* OpenSCAD
-* tai Fusion 360 scripting API
-
-## Tärkeät ominaisuudet
-
-* smooth lofted blade geometry
-* developable blade surfaces
-* laser-cuttable blade templates
-* printable end plates
-* configurable dimensions via config.json
-* modular stacking support
-* hidden screw mounting
-* blade slot system for aluminum blades
-
-## Visuaalinen tyyli
-
-Ulkonäön pitäisi olla:
-
-* minimalistinen
-* moderni
-* hiljainen
-* kineettinen
-* zen-henkinen
-* mattamusta / alumiini
-
-Tavoitteena ei ole maksimaalinen energiantuotto vaan:
-
-* kaunis liike
-* hiljainen toiminta
-* elegantti tekninen design
-* pieni energiantuotto LED-valoille ja elektroniikalle
-
+Näillä arvoilla voi muuttaa roottorin geometriaa ilman koodimuutoksia.
